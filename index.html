@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OutfitsDot — Coming Soon</title>
+  <link rel="icon" href="logo.png" type="image/png" />
+
+  <style>
+    @font-face {
+      font-family: 'OutfitsFont';
+      src: url('OutfitsFont.otf') format('opentype');
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'OutfitsFont', sans-serif;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 3em;
+      background: linear-gradient(270deg, #64f8c3, #38f7a4);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient 4s ease infinite;
+      text-align: center;
+      filter: drop-shadow(0 0 12px #38f7a4);
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .logo-wrapper {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .logo-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .menu-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 35px;
+      height: 30px;
+      cursor: pointer;
+      z-index: 101;
+      transition: transform 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .menu-toggle span {
+      display: block;
+      height: 4px;
+      width: 100%;
+      background: #64f8c3;
+      border-radius: 4px;
+      transition: all 0.4s ease;
+      transform-origin: center;
+    }
+
+    .menu-toggle.active {
+      transform: rotateY(180deg);
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg);
+      position: absolute;
+      background: white;
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg);
+      position: absolute;
+      background: white;
+    }
+
+    .nav-panel {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 250px;
+      height: 100vh;
+      background-color: #38f7a4;
+      padding: 80px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: -4px 0 20px #38f7a4;
+      transition: right 0.4s ease;
+      z-index: 100;
+    }
+
+    .nav-panel.active {
+      right: 0;
+    }
+
+    .nav-panel a,
+    .nav-panel button {
+      color: white;
+      text-decoration: none;
+      font-size: 1.4em;
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      font-weight: bold;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'OutfitsFont', sans-serif;
+    }
+
+    .nav-panel a:hover,
+    .nav-panel button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+
+    .dropdown {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+      margin-top: -10px;
+    }
+
+    .dropdown a {
+      font-size: 1em;
+      padding: 8px 10px;
+      display: block;
+      color: white;
+    }
+
+    .show-dropdown {
+      display: flex;
+    }
+
+    .arrow {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .arrow.rotate {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body oncontextmenu="return false">
+
+  <!-- Logo -->
+  <div class="logo-wrapper" onclick="window.location.href='https://outfit.lat'">
+    <img src="logo.png" alt="OutfitsDot Logo">
+  </div>
+
+  <!-- Menu Toggle -->
+  <div class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- Nav Panel -->
+  <div class="nav-panel" id="navPanel">
+    <a href="https://outfit.lat">Home</a>
+    <button onclick="toggleDropdown()">
+      Socials
+      <span class="arrow" id="arrowIcon">▼</span>
+    </button>
+    <div class="dropdown" id="socialsDropdown">
+      <a href="https://bsky.app/profile/outfit.lat" target="_blank">BlueSky</a>
+      <a href="https://github.com/OutfitsDot" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <!-- Message -->
+  <h1>We're not finished yet!</h1>
+
+  <script>
+    const menuToggle = document.getElementById('menuToggle');
+    const navPanel = document.getElementById('navPanel');
+    const dropdown = document.getElementById('socialsDropdown');
+    const arrowIcon = document.getElementById('arrowIcon');
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navPanel.classList.toggle('active');
+      dropdown.classList.remove('show-dropdown');
+      arrowIcon.classList.remove('rotate');
+    });
+
+    function toggleDropdown() {
+      dropdown.classList.toggle('show-dropdown');
+      arrowIcon.classList.toggle('rotate');
+    }
+  </script>
+
+</body>
+</html>
